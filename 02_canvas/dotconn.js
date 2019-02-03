@@ -23,7 +23,7 @@ var clear = function() {
 }
 
 ctx.fillStyle = "#B497D6"; //Purple
-ctx.strokeStyle = "#6E44FF"; //Darker Purple
+ctx.strokeStyle = "#AEC6CF"; //Darker Purple
 clearButton.addEventListener('click', clear);
 canvas.addEventListener('click', function(event) {
   var x = event.offsetX; //Relative x coordinate of the mouse to the canvas
