@@ -1,3 +1,7 @@
+// Team Lingo -- Jason Lin, Kevin Lin
+// SoftDev2 Pd7
+// K03 -- They lock us in the tower whenever we get caught ...which is often
+// 2019-02-06
 
 var canvas = document.getElementById("playground");
 var ctx = canvas.getContext('2d');
