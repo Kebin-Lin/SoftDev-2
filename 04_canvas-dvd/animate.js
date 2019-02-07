@@ -1,20 +1,25 @@
-// Team Lingo -- Jason Lin, Kevin Lin
-// SoftDev2 Pd7
-// K03 -- They lock us in the tower whenever we get caught ...which is often
-// 2019-02-06
+/*
+Team Lingo -- Kevin Lin, Jason Lin
+SoftDev2 pd7
+K04 -- What is it saving the screen from?
+2019-02-06
+*/
+
 
 var canvas = document.getElementById("playground");
-var ctx = canvas.getContext('2d');
+var ctx = canvas.getContext('2d'); //Instantiate the context of the canvas
+
+//Bind the buttons to variables to be used later
 var dotButton = document.getElementById("circle");
 var stopButton = document.getElementById("stop");
 var dvdButton = document.getElementById("dvd");
 
-var currRadius = 0;
+//Instatiate variables for circle animation
 var requestID;
 var radius = 0;
-var growing = false;
 var rate = 2;
 
+//Declare variables for DVD rectangle
 var rectX;
 var rectY;
 var rectWidth;
@@ -22,6 +27,7 @@ var rectHeight;
 var velX;
 var velY;
 
+//Get the DVD image based on file name
 var logo = new Image();
 logo.src = "logo-dvd.png";
 
@@ -34,12 +40,14 @@ var dvdLogoSetup = function() {
   rectX = Math.floor(Math.random() * (canvas.width - rectWidth));
   rectY = Math.floor(Math.random() * (canvas.height - rectHeight));
 
-  velX = 1;
-  velY = 1;
+  velX = 2;
+  velY = 2;
 
   var drawDVD = function() {
     clear();
-    ctx.fillRect(rectX,rectY,rectWidth,rectHeight);
+    ctx.drawImage(logo,rectX,rectY,rectWidth,rectHeight);
+    //Checks if the future xy coordinate is out of bounds
+    //If it is, then reverse velocity and return it back to where it was
     newX = rectX + velX;
     newY = rectY + velY;
     if (newX < 0 || newX > canvas.width - rectWidth) {
@@ -82,7 +90,6 @@ var clear = function() {
 }
 
 var stopIt = function() {
-  growing = false;
   window.cancelAnimationFrame(requestID); //Stops perpetuation of requestAnimationFrame
 }
 
