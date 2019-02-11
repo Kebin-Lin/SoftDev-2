@@ -29,7 +29,7 @@ var velY;
 
 //Get the DVD image based on file name
 var logo = new Image();
-logo.src = "logo-dvd.png";
+logo.src = "logo_dvd.jpg";
 
 var dvdLogoSetup = function() {
   window.cancelAnimationFrame(requestID);
