@@ -2,6 +2,7 @@
 #SoftDev2 pd7
 #K07 -- Import/Export Bank
 #2019-03-04
+
 '''
 Nobel Prize Database
 Each document looks similar to this:
@@ -21,17 +22,26 @@ Each document looks similar to this:
 }
 Link to raw dataset: http://api.nobelprize.org/v1/prize.json
 Import mechanism:
-We removed the first and last curly brace from the JSON file and used mongoimport like so
-$ mongoimport --db Lingo --collection prizes --jsonArray --file prize.json
+We inserted every element in the prizes list into the prizes collection by
+loading the JSON file and running the insert_many function with the prizes list
+as an argument.
 '''
 
 from pymongo import MongoClient
+import json
 
 #SERVER_ADDR = "142.93.57.60" # Jason's droplet
 SERVER_ADDR = "68.183.104.137" # Kevin's droplet
 connection = MongoClient(SERVER_ADDR)
 db = connection.Lingo
 collection = db.prizes
+prizeDct = None
+
+with open("prize.json") as dct:
+	prizeDct = json.load(dct)
+
+def importJson():
+    collection.insert_many(prizeDct["prizes"])
 
 def search_year(year):
     # Gets all of the documents with the given year
@@ -76,8 +86,8 @@ def search_num_lauretes(num):
     for prize in output:
         print(prize)
 
-
-#search_year(2003)
+importJson()
+search_year(2003)
 #search_category("Physics")
 #search_category_year("chemistry",1989)
 #search_category_after_year("physics",1950)
