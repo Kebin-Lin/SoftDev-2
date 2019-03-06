@@ -38,7 +38,8 @@ collection = db.prizes
 prizeDct = None
 
 with open("prize.json") as dct:
-	prizeDct = json.load(dct)
+    collection.drop()
+    prizeDct = json.load(dct)
 
 def importJson():
     collection.insert_many(prizeDct["prizes"])
