@@ -17,5 +17,14 @@ def changeIP():
 	mdb.changeAddr(newip)
 	return redirect(url_for("main"))
 
+@app.route("/search", methods=['GET', 'POST'])
+def search():
+	if (request.form.get("type") == "year"):
+	    return render_template("result.html", content = mdb.search_year(request.form.get("argument")))
+	elif (request.form.get("type") == "category"):
+	    return render_template("result.html", content = mdb.search_category(request.form.get("argument")))
+	else:
+	    return render_template("result.html", content = mdb.search_num_lauretes(request.form.get("argument")))
+
 app.debug = True
 app.run()

@@ -44,10 +44,15 @@
 
 					<td>
 
-						<form action="/search" style="margin-top: 15px">
-							<input type="text" name="query">
-							<input type="submit">
-						</form>
+						<form action="/search" method="POST" style="margin-top: 15px">
+                            <select name="type">
+                                <option value="year">Year</option>
+                                <option value="category">Category</option>
+                                <option value="num">Num Lauretes</option>
+                            </select>
+							<input name="argument" type=text>
+                        <input type="submit">
+                        </form>
 
 					</td>
 

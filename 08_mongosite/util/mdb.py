@@ -62,32 +62,44 @@ def search_year(year):
     # collection is the same thing as db.prizes
     print("Prizes with year:",year)
     prizes = collection.find({"year":str(year)})
+    output = []
     for prize in prizes:
         print(prize,"\n")
+        output.append(prize)
+    return output
 
 def search_category(category):
     # Gets all of the documents with the given category
     print("Prizes with category:",category)
     category = category.lower()
     prizes = collection.find({"category":category})
+    output = []
     for prize in prizes:
         print(prize,"\n")
+        output.append(prize)
+    return output
 
 def search_category_year(category,year):
     # Gets all of the documents with the given category and year
     print("Prizes from:",year,"with category:",category)
     category = category.lower()
     prizes = collection.find({'$and': [{"category":category},{"year":str(year)}]})
+    output = []
     for prize in prizes:
         print(prize,"\n")
+        output.append(prize)
+    return output
 
 def search_category_after_year(category,year):
     # Gets all of the documents with the given category and is after the given year
     print("Prizes after",year,"with category:",category)
     category = category.lower()
     prizes = collection.find({"$and":[{"category":category},{"year":{"$gte":str(year)}}]})
+    output = []
     for prize in prizes:
-        print(prize)
+        print(prize,"\n")
+        output.append(prize)
+    return output
 
 def search_num_lauretes(num):
     # Gets all of the documents where the number of lauretes is that number
@@ -97,10 +109,13 @@ def search_num_lauretes(num):
     for prize in prizes:
         if len(prize['laureates']) == num:
             output.append(prize)
-    for prize in output:
-        print(prize)
+    output = []
+    for prize in prizes:
+        print(prize,"\n")
+        output.append(prize)
+    return output
 
-#importJson()
+importJson()
 #search_year(2003)
 #search_category("Physics")
 #search_category_year("chemistry",1989)
