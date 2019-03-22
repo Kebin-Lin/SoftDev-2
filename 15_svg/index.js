@@ -12,7 +12,7 @@ var padding = 50;
 var precision = 10;
 
 var xscale = d3.scaleLinear().range([padding,width - padding]);
-var yscale = d3.scaleLinear().range([padding,height - padding]);
+var yscale = d3.scaleLinear().range([height - padding,padding]);
 
 var dotrad = 2;
 
@@ -34,66 +34,74 @@ d3.csv(filename).then( function(data) {
 
   dot.append('circle')
     .attr('cx', function(d) { return xscale(d.x); }) //Sets x center of dot
-    .attr('cy', function(d) { return height - yscale(d.y); }) //Sets y center of dot
+    .attr('cy', function(d) { return yscale(d.y); }) //Sets y center of dot
     .attr('r', dotrad); //Sets dot radius
 
   dot.append('text')
     .attr('x', function(d) { return xscale(d.x) + dotrad + 3 })
-    .attr('y', function(d) { return height - yscale(d.y) })
+    .attr('y', function(d) { return yscale(d.y) })
     .attr("dy", ".35em") //Shift text down by 35% of its height
     .text(function(d) { return d.name });
 
-  chart.append('line') //x-axis
-    .attr('x1', padding)
-    .attr('y1', height - padding)
-    .attr('x2', width - padding + 10)
-    .attr('y2', height - padding)
-    .attr('stroke', "#000000");
+  var axisX = d3.axisBottom().scale(xscale);
+  var axisY = d3.axisLeft().scale(yscale);
 
-  chart.append('line') //y-axis
-    .attr('x1', padding)
-    .attr('y1', height - padding)
-    .attr('x2', padding)
-    .attr('y2', padding - 10)
-    .attr('stroke', "#000000");
+  chart.append('g')
+    .attr('transform', 'translate(0, ' + (height - padding) + ')')
+    .call(axisX);
 
-  console.log(maxY);
-
-  for (var i = 1; i < precision + 1; i++) {
-    var displacementy = i * ((height - 2 * padding) / precision);
-    var displacementx = i * ((width - 2 * padding) / precision);
-    var incx = maxX * i / precision;
-    var incy = maxY * i / precision;
-
-    var xtick = chart.append('g') //x-axis tick
-    var ytick = chart.append('g') //y-axis tick
-
-    xtick.append('line') //Tick
-      .attr('x1', padding + displacementx)
-      .attr('y1', height - padding - 2)
-      .attr('x2', padding + displacementx)
-      .attr('y2', height - padding + 2)
-      .attr('stroke', "#000000");
-
-    xtick.append('text') //Text label
-      .attr('class', 'xtick')
-      .attr('dy', '1em')
-      .attr('x', padding + displacementx)
-      .attr('y', height - padding + 2)
-      .text(incx);
-
-    ytick.append('line') //Tick
-      .attr('x1', padding - 2)
-      .attr('y1', height -padding - displacementy)
-      .attr('x2', padding + 2)
-      .attr('y2', height - padding - displacementy)
-      .attr('stroke', "#000000");
-
-    ytick.append('text') //Text label
-      .attr('class', 'ytick')
-      .attr('x', padding - 4)
-      .attr('dy', '.35em')
-      .attr('y', height - padding - displacementy)
-      .text(incy);
-  }
+  chart.append('g')
+    .attr("transform", "translate(" + padding + ", 0)")
+    .call(axisY);
+  // chart.append('line') //x-axis
+  //   .attr('x1', padding)
+  //   .attr('y1', height - padding)
+  //   .attr('x2', width - padding + 10)
+  //   .attr('y2', height - padding)
+  //   .attr('stroke', "#000000");
+  //
+  // chart.append('line') //y-axis
+  //   .attr('x1', padding)
+  //   .attr('y1', height - padding)
+  //   .attr('x2', padding)
+  //   .attr('y2', padding - 10)
+  //   .attr('stroke', "#000000");
+  //
+  // for (var i = 1; i < precision + 1; i++) {
+  //   var displacementy = i * ((height - 2 * padding) / precision);
+  //   var displacementx = i * ((width - 2 * padding) / precision);
+  //   var incx = maxX * i / precision;
+  //   var incy = maxY * i / precision;
+  //
+  //   var xtick = chart.append('g') //x-axis tick
+  //   var ytick = chart.append('g') //y-axis tick
+  //
+  //   xtick.append('line') //Tick
+  //     .attr('x1', padding + displacementx)
+  //     .attr('y1', height - padding - 2)
+  //     .attr('x2', padding + displacementx)
+  //     .attr('y2', height - padding + 2)
+  //     .attr('stroke', "#000000");
+  //
+  //   xtick.append('text') //Text label
+  //     .attr('class', 'xtick')
+  //     .attr('dy', '1em')
+  //     .attr('x', padding + displacementx)
+  //     .attr('y', height - padding + 2)
+  //     .text(incx);
+  //
+  //   ytick.append('line') //Tick
+  //     .attr('x1', padding - 2)
+  //     .attr('y1', height -padding - displacementy)
+  //     .attr('x2', padding + 2)
+  //     .attr('y2', height - padding - displacementy)
+  //     .attr('stroke', "#000000");
+  //
+  //   ytick.append('text') //Text label
+  //     .attr('class', 'ytick')
+  //     .attr('x', padding - 4)
+  //     .attr('dy', '.35em')
+  //     .attr('y', height - padding - displacementy)
+  //     .text(incy);
+  // }
 });
