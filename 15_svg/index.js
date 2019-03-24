@@ -5,11 +5,11 @@
 
 var width = 500,
     height = 500;
-var filename = 'circle.csv'; //https://github.com/mks66/66source/tree/master/polygons/base_python
+//var filename = 'circle.csv'; //https://github.com/mks66/66source/tree/master/polygons/base_python
 //var filename = 'data.csv';
-//var filename = 'moore.csv'; //https://github.com/wallento/mooreandmore/blob/master/raw_data.csv
-var padding = 50;
-var precision = 10;
+var filename = 'moore.csv'; //https://github.com/wallento/mooreandmore/blob/master/raw_data.csv
+var padding = 100;
+//var precision = 10;
 
 var xscale = d3.scaleLinear().range([padding,width - padding]);
 var yscale = d3.scaleLinear().range([height - padding,padding]);
@@ -22,10 +22,10 @@ var chart = d3.select(".chart") //Set chart width
 
 d3.csv(filename).then( function(data) {
 
-  var maxX = d3.max(data, function(d) { return parseInt(d.x); });
-  var maxY = d3.max(data, function(d) { return parseInt(d.y); });
+  var maxX = d3.max(data, function(d) { return parseInt(d.x - 1970); }); //Years since 1970
+  var maxY = d3.max(data, function(d) { return parseInt(d.y / 1000000); });
 
-  xscale.domain([0, maxX]); //Sets domain for x coords, set lower bound to 1970 for moore's law
+  xscale.domain([0, maxX]); //Sets domain for x coords
   yscale.domain([0, maxY]); //Sets domain for y coords
 
   var dot = chart.selectAll("g") //Selects all groups in svg
@@ -33,18 +33,40 @@ d3.csv(filename).then( function(data) {
     .enter().append("g") //New group per data point
 
   dot.append('circle')
-    .attr('cx', function(d) { return xscale(d.x); }) //Sets x center of dot
-    .attr('cy', function(d) { return yscale(d.y); }) //Sets y center of dot
+    .attr('cx', function(d) { return xscale(d.x - 1970); }) //Sets x center of dot
+    .attr('cy', function(d) { return yscale(d.y / 1000000); }) //Sets y center of dot
     .attr('r', dotrad); //Sets dot radius
 
   dot.append('text')
-    .attr('x', function(d) { return xscale(d.x) + dotrad + 3 })
-    .attr('y', function(d) { return yscale(d.y) })
+    .attr('x', function(d) { return xscale(d.x - 1970) + dotrad + 3 })
+    .attr('y', function(d) { return yscale(d.y / 1000000) })
     .attr("dy", ".35em") //Shift text down by 35% of its height
     .text(function(d) { return d.name });
 
   var axisX = d3.axisBottom().scale(xscale);
   var axisY = d3.axisLeft().scale(yscale);
+
+  chart.append('text') //Title
+    .attr('x', width/2)
+    .attr('y', padding - 10)
+    .attr('text-anchor','middle')
+    .style('font-size', '20px')
+    .text("Moore's Law");
+
+    chart.append('text') //x-axis label
+      .attr('x', width/2)
+      .attr('y', height - padding + 40)
+      .attr('text-anchor','middle')
+      .style('font-size', '14px')
+      .text("Years Since 1970");
+
+    chart.append('text') //y-axis label
+      .attr('transform', "rotate(-90)")
+      .attr('x', -height/2)
+      .attr('y', padding - 40)
+      .attr('text-anchor','middle')
+      .style('font-size', '14px')
+      .text("Millions of Transistors");
 
   chart.append('g')
     .attr('transform', 'translate(0, ' + (height - padding) + ')')
@@ -53,6 +75,7 @@ d3.csv(filename).then( function(data) {
   chart.append('g')
     .attr("transform", "translate(" + padding + ", 0)")
     .call(axisY);
+
   // chart.append('line') //x-axis
   //   .attr('x1', padding)
   //   .attr('y1', height - padding)
