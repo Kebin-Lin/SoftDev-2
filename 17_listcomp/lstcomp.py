@@ -1,4 +1,4 @@
-# Team Flute - Kevin Lin, Mohammad Uddin
+# Team Flute - Kevin Lin, Mohammed Uddin
 # SoftDev2 pd7
 # K17 -- PPFTLCW
 # 2019-04-15
