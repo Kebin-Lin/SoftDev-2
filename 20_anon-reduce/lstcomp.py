@@ -4,9 +4,13 @@
 # 2019-04-18
 
 from functools import reduce
+from string import punctuation
 
 text = open('Notre-Dame.txt','r',encoding='utf-8').read().split()
 # text = "Waffles are the coolest in the world".split()
+
+text = [x.lower().strip(punctuation) for x in text] #Strips text of punctuation and makes everything lower case
+print('Length of text:', len(text))
 
 def wordFreq(word):
     return reduce((lambda x, y: x + 1 if y == word else x), text, 0)
@@ -18,7 +22,7 @@ def wordGroupFreq(words):
 def mostFreq():
     # O(n) Version
     freqDct = {}
-    for i in text:
+    for i in text: #Create a dictionary of words as keys and frequency as values
         freqDct[i] = freqDct[i] + 1 if i in freqDct else 1
     return reduce((lambda highest, currWord: currWord if freqDct[currWord] > freqDct[highest] else highest), text)
     # O(n^2) Version
