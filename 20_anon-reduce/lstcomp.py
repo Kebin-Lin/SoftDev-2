@@ -13,10 +13,12 @@ text = [x.lower().strip(punctuation) for x in text] #Strips text of punctuation 
 print('Length of text:', len(text))
 
 def wordFreq(word):
+    word = word.lower()
     return reduce((lambda x, y: x + 1 if y == word else x), text, 0)
     # return len([1 for i in text if i == word])
 
 def wordGroupFreq(words):
+    words = [x.lower() for x in words]
     return reduce((lambda x, y: x + 1 if text[y:y+len(words)] == words else x), range(len(text)), 0)
 
 def mostFreq():
