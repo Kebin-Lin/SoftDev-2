@@ -26,7 +26,7 @@ def mostFreq():
     freqDct = {}
     for i in text: #Create a dictionary of words as keys and frequency as values
         freqDct[i] = freqDct[i] + 1 if i in freqDct else 1
-    return reduce((lambda highest, currWord: currWord if freqDct[currWord] > freqDct[highest] else highest), text)
+    return reduce((lambda highest, currWord: currWord if freqDct[currWord] > freqDct[highest] else highest), freqDct.keys())
     # O(n^2) Version
     # return reduce((lambda highest, currWord: (currWord, wordFreq(currWord)) if wordFreq(currWord) > highest[1] else highest ), text, (None, -1))
 
