@@ -3,11 +3,9 @@ import random
 def makeMemo(f):
     results = {}
     def inner(*argv): #Allows for makeMemo to be used on functions with more than one argument
-        if argv in results: #Retrieves output if already calculated before
-            return results[argv]
-        out = f(*argv) #Runs function if not calculated before
-        results[argv] = out #Stores output
-        return out #Return output
+        if argv not in results: #Stores output if it doesn't exist
+            results[argv] = f(*argv)
+        return results[argv] #Return output
     return inner
 
 @makeMemo
